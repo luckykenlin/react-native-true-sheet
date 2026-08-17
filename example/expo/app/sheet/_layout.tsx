@@ -79,7 +79,14 @@ export default function SheetStackLayout() {
         <Sheet.Screen
           name="settings"
           options={{
-            detents: ['auto', 1],
+            // REPRO: full-height detent. The nested <Stack> is flex:1, so 'auto'
+            // would collapse it and we couldn't tell "unresponsive" from "not
+            // rendered".
+            detents: [1],
+            // REPRO: required. Without it the content view gets no flex (see
+            // styles.scrollableContent in TrueSheet.tsx) and the nested stack,
+            // being flex:1, collapses to zero height and renders nothing.
+            scrollable: true,
             backgroundColor: DARK,
             cornerRadius: 16,
           }}
